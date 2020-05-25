@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Story Character Names Recommender</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!--
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+            crossorigin="anonymous">
+        -->
+        <style>
+            fieldset {margin-bottom: 20px;}
+            label.block {display: block; margin-bottom: 5px;}
+        </style>
+    </head>
+    <body>
+        <form action="https://story-character-names-api.empty-warthog-85.telebit.io/names" method="GET">
+                <fieldset>
+                    <input type="radio" name="gender" id="male" value="male">
+                    <label for="male">Male</label>
+                    <input type="radio" name="gender" id="female" value="female">
+                    <label for="female">Female</label>    
+                </fieldset>
+                <fieldset>
+                    <input type="number" min="0" max="100" name="age" id="age">
+                    <label for="age">Age</label>
+                    <div>
+                        <span style="font-weight: bold;">OR</span>
+                    </div>
+                    <input type="number" min="0" max="100" name="minAge" id="minAge">
+                    <label for="minAge">Minimum age</label>
+                    <input type="number" min="0" max="100" name="maxAge" id="maxAge">
+                    <label for="maxAge">Maximum age</label>
+                </fieldset>
+                <fieldset>
+                    <label for="region" class="block">Region</label>
+                    <select name="region" id="region">
+                        <option value="northeast">North East</option>
+                        <option value="newengland">New England</option>
+                        <option value="mideast">Mid East</option>
+                        <option value="southeast">South East</option>
+                        <option value="greatlakes">Northeast</option>
+                        <option value="midwest">Mid West</option>
+                        <option value="plains">Plains</option>
+                        <option value="rockymountains">Rocky Mountains</option>
+                        <option value="west">West</option>
+                        <option value="south">South</option>
+                        <option value="southwest">South West</option>
+                        <option value="farwest">Far West</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <input type="submit" value="Submit">
+                </fieldset>
+        </form>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+            crossorigin="anonymous">
+        </script>
+        <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+            crossorigin="anonymous">
+        </script>
+        -->
+    </body>
+</html>
