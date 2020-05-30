@@ -15,10 +15,12 @@
             label {margin-right: 15px;}a
             label.above {display: block; margin-bottom: 5px;}
             div.spacer {display: block; margin-top: 10px; margin-bottom: 10px; font-weight: bold;}
+            div#results {display: none;}
+            table {border-spacing: 10px 5px;}
         </style>
     </head>
     <body>
-        <form action="https://story-character-names-api.empty-warthog-85.telebit.io/names" method="GET" onsubmit="checkForm()">
+        <form onsubmit="return fetchAndLoad()">
                 <fieldset>
                     <input type="radio" name="gender" id="male" value="male">
                     <label for="male">Male</label>
@@ -110,6 +112,20 @@
                     <input type="submit" value="Submit">
                 </fieldset>
         </form>
+        <div id="results">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Birth Year</th>
+                        <th>Traits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
             crossorigin="anonymous">
@@ -126,7 +142,7 @@
         -->
         <script>
             function toggleAreaSelection(self) {
-                var element = {};
+                let element;
                 switch(self) {
                     case document.querySelector("#region"):
                         element = document.querySelector("#state");
@@ -151,8 +167,18 @@
                 }
             }
 
-            function checkForm() {
+            function fetchAndLoad() {
+                const request = new XMLHttpRequest();
+                const data = new FormData(form);
 
+                request.responseType = "json";
+                request.open("GET", "https://story-character-names-api.empty-warthog-85.telebit.io/names")
+                request.send(data);
+                request.onload(() => {
+                    const response = request.response;
+                    console.log(response);
+                });
+                return false;
             }
         </script>
     </body>
