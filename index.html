@@ -174,7 +174,7 @@
                 const request = new XMLHttpRequest();
 
                 request.responseType = "json";
-                request.open("GET", "https://story-character-names-api.empty-warthog-85.telebit.io/names", true)
+                request.open("POST", "https://story-character-names-api.empty-warthog-85.telebit.io/names", true)
 
                 const data = new FormData(form);
                 request.send(data);
