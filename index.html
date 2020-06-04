@@ -178,10 +178,10 @@
 
                 const data = new FormData(form);
                 request.send(data);
-                // request.onload(() => {
-                //     const response = request.response;
-                //     console.log(response);
-                // });
+                request.onload(() => {
+                    const response = request.response;
+                    console.log(response);
+                });
             }
         </script>
     </body>
