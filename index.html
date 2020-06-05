@@ -118,6 +118,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Gender</th>
+                        <th>Occurrences</th>
                         <th>Birth Year</th>
                         <th>Traits</th>
                     </tr>
@@ -185,13 +186,21 @@
                 };
             }
 
+            const results = document.querySelector("#results");
             const resultsTableBody = document.querySelector("#results > table > tbody");
-            function loadData(data) {
-                while (resultsTableBody.firstChild) {
-                    resultsTableBody.remove(resultsTableBody.firstChild);
-                }
+            function loadData(names) {
+                names.forEach(name => {
+                    let tr = document.createElement("tr");
+                    let keys = ["name","gender","occurrences","year","characteristics"];
+                    keys.forEach(key => {
+                        let td = document.createElement("td");
+                        td.textContent = name[key];
+                        tr.appendChild(td);
+                    });
+                    resultsTableBody.appendChild(tr);
+                });
+                results.style.display = "block";
             }
-
         </script>
     </body>
 </html>
