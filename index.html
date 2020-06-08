@@ -17,10 +17,26 @@
             div.spacer {display: block; margin-top: 10px; margin-bottom: 10px; font-weight: bold;}
             div#results {display: none;}
             table {border-spacing: 10px 5px;}
+            #progress {
+                display: none;
+                position: absolute;
+                top: 45%;
+                left: 45%;
+                width: 100px;
+                height: 100px;
+                border: 2px solid #ababab;
+                box-shadow:1px 1px 10px #ababab;
+                border-radius:5px;
+                background-color: white;
+                z-index: 1002;
+                text-align:center;
+                overflow: auto;
+            }
         </style>
     </head>
     <body>
         <form id="queryForm">
+            <fieldset id="queryInputs">
                 <fieldset>
                     <input type="radio" name="gender" id="male" value="male">
                     <label for="male">Male</label>
@@ -60,11 +76,11 @@
                         <option value="AZ">Arizona</option>
                         <option value="AR">Arkansas</option>
                         <option value="CA">California</option>
-                        <option value="Colorado">CO</option>
-                        <option value="Connecticut">CT</option>
-                        <option value="Delaware">DE</option>
-                        <option value="Florida">FL</option>
-                        <option value="Georgia">GA</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
                         <option value="HI">Hawaii</option>
                         <option value="ID">Idaho</option>
                         <option value="IL">Illinois</option>
@@ -111,7 +127,9 @@
                 <fieldset>
                     <input type="submit" value="Submit">
                 </fieldset>
+            </fieldset>
         </form>
+        <div id="progress"><img id="loading" src="images/loading scaled.gif"/></div>
         <div id="results">
             <table>
                 <thead>
@@ -169,26 +187,44 @@
             }
 
             const form = document.querySelector("#queryForm");
-            form.onsubmit = function (event) {
-                event.preventDefault();
+            form.onsubmit = function (submitEvent) {
+                submitEvent.preventDefault();
+
+                const table = document.querySelector("#results > table");
+                table.style.display = "none";
+                clearTable(table);
 
                 const request = new XMLHttpRequest();
-
                 request.responseType = "json";
                 request.open("POST", "https://story-character-names-api.empty-warthog-85.telebit.io/names", true)
 
+                const inputs = document.querySelector("#queryInputs");
+                const progress = document.querySelector("#progress");
+
+                request.onloadstart = function(e) {
+                    inputs.disabled = true;
+                    progress.style.display = "block";
+                };
+
+                request.onloadend = function(e) {
+                    inputs.disabled = false;
+                    progress.style.display = "none";
+                    table.style.display = "block";
+                };
+
                 const data = new FormData(form);
                 request.send(data);
+
                 request.onload = () => {
                     const json = request.response;
-                    console.log(json);
                     loadData(json);
                 };
             }
 
-            const results = document.querySelector("#results");
-            const resultsTableBody = document.querySelector("#results > table > tbody");
             function loadData(names) {
+                const results = document.querySelector("#results");
+                const resultsTableBody = document.querySelector("#results > table > tbody");
+
                 names.forEach(name => {
                     let tr = document.createElement("tr");
                     let keys = ["name","gender","occurrences","year","characteristics"];
@@ -201,6 +237,13 @@
                 });
                 results.style.display = "block";
             }
+
+            function clearTable(table) {
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+            };
         </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
 </html>
