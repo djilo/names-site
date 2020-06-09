@@ -12,11 +12,11 @@
         <style>
             form {background-color: rgb(148, 177, 175); overflow: auto;}
             fieldset {margin: 10px; border-radius: 5px;}
-            label {margin-right: 15px;}a
+            label {margin-right: 15px;}
             label.above {display: block; margin-bottom: 5px;}
             div.spacer {display: block; margin-top: 10px; margin-bottom: 10px; font-weight: bold;}
-            div#results {display: none;}
-            table {border-spacing: 10px 5px;}
+            div#results {display: none; padding-top: 5px}
+            table, th, td {border: solid black; border-collapse: collapse;}
             #progress {
                 display: none;
                 position: absolute;
@@ -38,12 +38,14 @@
         <form id="queryForm">
             <fieldset id="queryInputs">
                 <fieldset>
+                    <legend>Gender</legend>
                     <input type="radio" name="gender" id="male" value="male">
                     <label for="male">Male</label>
                     <input type="radio" name="gender" id="female" value="female">
                     <label for="female">Female</label>    
                 </fieldset>
                 <fieldset>
+                    <legend>Age</legend>
                     <input type="number" min="1" max="120" name="age" id="age" onfocus="toggleAgeEntry(this)">
                     <label for="age">Age</label>
                     <div class="spacer">OR</div>
@@ -53,6 +55,7 @@
                     <label for="maxAge">Maximum age</label>
                 </fieldset>
                 <fieldset>
+                    <legend>Location</legend>
                     <select name="region" id="region" onchange="toggleAreaSelection(this)">
                         <option value="" selected>Select a U.S. region</option>
                         <option value="northeast">North East</option>
