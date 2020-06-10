@@ -148,20 +148,6 @@
                 </tbody>
             </table>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-            crossorigin="anonymous">
-        </script>
-        <!--
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
-            crossorigin="anonymous">
-        </script>
-        -->
         <script>
             function toggleAreaSelection(self) {
                 let element;
@@ -190,38 +176,35 @@
             }
 
             const form = document.querySelector("#queryForm");
-            form.onsubmit = function (submitEvent) {
+
+            form.onsubmit = async function (submitEvent) {
                 submitEvent.preventDefault();
+                showProgress();
+                clearData();
 
-                const table = document.querySelector("#results > table");
-                table.style.display = "none";
-                clearTable(table);
+                const formData = new FormData(form);
+                const url = "https://story-character-names-api.empty-warthog-85.telebit.io/names";
+                const options = {method: "POST", body: formData};
+                const response = await fetch(url, options);
+                const data = await response.json();
 
-                const request = new XMLHttpRequest();
-                request.responseType = "json";
-                request.open("POST", "https://story-character-names-api.empty-warthog-85.telebit.io/names", true)
+                loadData(data);
+                clearProgress();
+                showData();
+            }
 
-                const inputs = document.querySelector("#queryInputs");
-                const progress = document.querySelector("#progress");
+            const inputs = document.querySelector("#queryInputs");
+            const progress = document.querySelector("#progress");
+            const fade = document.querySelector("#fade");
 
-                request.onloadstart = function(e) {
-                    inputs.disabled = true;
-                    progress.style.display = "block";
-                };
+            function showProgress() {
+                inputs.disabled = true;
+                progress.style.display = "block";
+            }
 
-                request.onloadend = function(e) {
-                    inputs.disabled = false;
-                    progress.style.display = "none";
-                    table.style.display = "block";
-                };
-
-                const data = new FormData(form);
-                request.send(data);
-
-                request.onload = () => {
-                    const json = request.response;
-                    loadData(json);
-                };
+            function clearProgress() {
+                inputs.disabled = false;
+                progress.style.display = "none";
             }
 
             function loadData(names) {
@@ -241,12 +224,18 @@
                 results.style.display = "block";
             }
 
-            function clearTable(table) {
+            const table = document.querySelector("#results > table");
+
+            function clearData() {
+                table.style.display = "none";
                 while (table.rows.length > 1) {
                     table.deleteRow(1);
                 }
             };
+
+            function showData() {
+                table.style.display = "block";
+            }
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
 </html>
