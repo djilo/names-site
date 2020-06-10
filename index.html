@@ -4,35 +4,7 @@
         <title>Story Character Names Recommender</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!--
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
-            crossorigin="anonymous">
-        -->
-        <style>
-            form {background-color: rgb(148, 177, 175); overflow: auto;}
-            fieldset {margin: 10px; border-radius: 5px;}
-            label {margin-right: 15px;}
-            label.above {display: block; margin-bottom: 5px;}
-            div.spacer {display: block; margin-top: 10px; margin-bottom: 10px; font-weight: bold;}
-            div#results {display: none; padding-top: 5px}
-            table, th, td {border: solid black; border-collapse: collapse;}
-            #progress {
-                display: none;
-                position: absolute;
-                top: 45%;
-                left: 45%;
-                width: 100px;
-                height: 100px;
-                border: 2px solid #ababab;
-                box-shadow:1px 1px 10px #ababab;
-                border-radius:5px;
-                background-color: white;
-                z-index: 1002;
-                text-align:center;
-                overflow: auto;
-            }
-        </style>
+        <link rel="stylesheet" href="styles/main.css">
     </head>
     <body>
         <form id="queryForm">
@@ -148,94 +120,6 @@
                 </tbody>
             </table>
         </div>
-        <script>
-            function toggleAreaSelection(self) {
-                let element;
-                switch(self) {
-                    case document.querySelector("#region"):
-                        element = document.querySelector("#state");
-                        break;
-                    case document.querySelector("#state"):
-                        element = document.querySelector("#region");
-                        break;
-                }
-                element.selectedIndex = 0;
-            }
-
-            function toggleAgeEntry(self) {
-                switch(self) {
-                    case document.querySelector("#minAge"):
-                    case document.querySelector("#maxAge"):
-                        document.querySelector("#age").value = "";
-                        break;
-                    case document.querySelector("#age"):
-                        document.querySelector("#minAge").value = "";
-                        document.querySelector("#maxAge").value = "";
-                        break;
-                }
-            }
-
-            const form = document.querySelector("#queryForm");
-
-            form.onsubmit = async function (submitEvent) {
-                submitEvent.preventDefault();
-                showProgress();
-                clearData();
-
-                const formData = new FormData(form);
-                const url = "https://story-character-names-api.empty-warthog-85.telebit.io/names";
-                const options = {method: "POST", body: formData};
-                const response = await fetch(url, options);
-                const data = await response.json();
-
-                loadData(data);
-                clearProgress();
-                showData();
-            }
-
-            const inputs = document.querySelector("#queryInputs");
-            const progress = document.querySelector("#progress");
-            const fade = document.querySelector("#fade");
-
-            function showProgress() {
-                inputs.disabled = true;
-                progress.style.display = "block";
-            }
-
-            function clearProgress() {
-                inputs.disabled = false;
-                progress.style.display = "none";
-            }
-
-            function loadData(names) {
-                const results = document.querySelector("#results");
-                const resultsTableBody = document.querySelector("#results > table > tbody");
-
-                names.forEach(name => {
-                    let tr = document.createElement("tr");
-                    let keys = ["name","gender","occurrences","year","characteristics"];
-                    keys.forEach(key => {
-                        let td = document.createElement("td");
-                        td.textContent = name[key];
-                        tr.appendChild(td);
-                    });
-                    resultsTableBody.appendChild(tr);
-                });
-                results.style.display = "block";
-            }
-
-            const table = document.querySelector("#results > table");
-
-            function clearData() {
-                table.style.display = "none";
-                while (table.rows.length > 1) {
-                    table.deleteRow(1);
-                }
-            };
-
-            function showData() {
-                table.style.display = "block";
-            }
-        </script>
+        <script src="scripts/main.js"></script>
     </body>
 </html>
