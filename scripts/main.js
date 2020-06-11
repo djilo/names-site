@@ -27,6 +27,7 @@ function toggleAgeEntry(self) {
 const form = document.querySelector("#queryForm");
 form.onsubmit = async function (submitEvent) {
     submitEvent.preventDefault();
+
     showProgress();
     clearData();
 
@@ -51,24 +52,37 @@ function clearProgress() {
     progress.style.display = "none";
 }
 
-async function fetchData(theForm) {
+async function fetchData(form) {
     try {
-        const formData = new FormData(theForm);
-        const name = theForm.constructor.name;
-        const elements = theForm.elements;
-        for(i=0; i<elements.length; i++) {
-            console.log(elements[i].name + ": " + elements[i].value);
-        }
+        // For some reason, the FormData constructor with the Form element as a parameter
+        // was not initializing the FormData object with the Form element values. Appending
+        // the values to an already constructed FormData object was a workaround
+        const formData = appendDataFromForm(new FormData(), form);
+
         const url = "https://story-character-names-api.empty-warthog-85.telebit.io/names";
         const options = {method: "POST", body: formData};
         const response = await fetch(url, options);
         const data = await response.json();
+
         return data;
     } catch (error) {
         alert(error.name + ": " + error.message);
         clearProgress();
         throw error;
     }
+}
+
+function appendDataFromForm(formData, form) {
+    const inputs = Array.from(form.querySelectorAll("input")).filter(item => item.type != "submit")
+        .filter(item => item.type == "number" || item.type == "text" || (item.type == "radio" && item.checked));
+    const selects = Array.from(form.querySelectorAll("select"));
+    const data = [...inputs, ...selects];
+
+    data.forEach(item => {
+        formData.append(item.name, item.value);
+    });
+
+    return formData;
 }
 
 function loadData(names) {
@@ -85,6 +99,7 @@ function loadData(names) {
         });
         resultsTableBody.appendChild(tr);
     });
+
     results.style.display = "block";
 }
 
