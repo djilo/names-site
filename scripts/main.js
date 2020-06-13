@@ -56,7 +56,7 @@ async function fetchData(form) {
     try {
         // For some reason, the FormData constructor with the Form element as a parameter
         // was not initializing the FormData object with the Form element values. Appending
-        // the values to an already constructed FormData object was a workaround
+        // the values to an already constructed FormData object is a workaround
         const formData = appendDataFromForm(new FormData(), form);
 
         const url = "https://story-character-names-api.empty-warthog-85.telebit.io/names";
@@ -85,9 +85,11 @@ function appendDataFromForm(formData, form) {
     return formData;
 }
 
+const table = document.querySelector("#resultsTable");
+
 function loadData(names) {
     const results = document.querySelector("#results");
-    const resultsTableBody = document.querySelector("#results > table > tbody");
+    const resultsTableBody = document.querySelector("#resultsTable > tbody");
 
     names.forEach(name => {
         let tr = document.createElement("tr");
@@ -100,10 +102,10 @@ function loadData(names) {
         resultsTableBody.appendChild(tr);
     });
 
+    const simpleTable = new DataTable(table);
+
     results.style.display = "block";
 }
-
-const table = document.querySelector("#results > table");
 
 function clearData() {
     table.style.display = "none";
