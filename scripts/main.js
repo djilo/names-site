@@ -1,4 +1,4 @@
-function toggleAreaSelection(self) {
+export function toggleAreaSelection(self) {
     let element;
     switch(self) {
         case document.querySelector("#region"):
@@ -11,7 +11,7 @@ function toggleAreaSelection(self) {
     element.selectedIndex = 0;
 }
 
-function toggleAgeEntry(self) {
+export function toggleAgeEntry(self) {
     switch(self) {
         case document.querySelector("#minAge"):
         case document.querySelector("#maxAge"):
@@ -33,9 +33,14 @@ form.onsubmit = async function (submitEvent) {
 
     const data = await fetchData(submitEvent.target);
 
-    loadData(data);
-    clearProgress();
-    showData();
+    try {
+        loadData(data);
+        showData();
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        clearProgress();
+    }
 }
 
 const inputs = document.querySelector("#queryInputs");
@@ -101,8 +106,6 @@ function loadData(names) {
         });
         resultsTableBody.appendChild(tr);
     });
-
-    const simpleTable = new DataTable(table);
 
     results.style.display = "block";
 }
