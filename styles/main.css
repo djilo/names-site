@@ -37,8 +37,8 @@ th, td {
     position: absolute;
     top: 45%;
     left: 45%;
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
     border: 2px solid #ababab;
     box-shadow:1px 1px 10px #ababab;
     border-radius:5px;
